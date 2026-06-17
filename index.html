@@ -12,6 +12,10 @@
 <body>
   <!-- 游戏容器，Three.js 将在此渲染 3D 场景 -->
   <div id="game-container"></div>
+  <!-- 小游戏容器（p5.js 覆盖层） -->
+  <div id="minigame-container" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;pointer-events:none;display:none"></div>
+  <!-- p5.js 库（全局模式加载） -->
+  <script src="/p5.min.js"></script>
   <!-- 主入口脚本，使用 ES Module 方式加载 -->
   <script type="module" src="/src/main.ts"></script>
 </body>

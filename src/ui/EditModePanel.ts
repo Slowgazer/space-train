@@ -11,6 +11,7 @@ export class EditModePanel {
   private categories: string[] = [];
   private _editorOpen = false;
   private onPauseToggle: (() => void) | null = null;
+  private onMiniGame: (() => void) | null = null;
   private paused = false;
 
   constructor() {
@@ -49,6 +50,11 @@ export class EditModePanel {
     editorBtn.style.cssText = this.btnStyle('#4fc3f7');
     editorBtn.onclick = () => this.toggleEditor();
 
+    const miniGameBtn = document.createElement('button');
+    miniGameBtn.textContent = '🎮 迷你游戏';
+    miniGameBtn.style.cssText = this.btnStyle('#ffcc44');
+    miniGameBtn.onclick = () => this.onMiniGame?.();
+
     const gridLabel = document.createElement('span');
     gridLabel.textContent = '网格 ✓';
     gridLabel.style.cssText = 'color:#888;font-size:12px;margin-left:auto;';
@@ -60,6 +66,7 @@ export class EditModePanel {
     el.appendChild(title);
     el.appendChild(pauseBtn);
     el.appendChild(editorBtn);
+    el.appendChild(miniGameBtn);
     el.appendChild(gridLabel);
     el.appendChild(axesLabel);
     document.body.appendChild(el);
@@ -220,6 +227,10 @@ export class EditModePanel {
 
   setOnPauseToggle(cb: () => void): void {
     this.onPauseToggle = cb;
+  }
+
+  setOnMiniGame(cb: () => void): void {
+    this.onMiniGame = cb;
   }
 
   get isPaused(): boolean { return this.paused; }

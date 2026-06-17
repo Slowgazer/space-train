@@ -38,6 +38,7 @@ import { GAME_CONFIG_META } from '../config/gameConfig';
 import { SeedDialoguePanel } from '../ui/SeedDialoguePanel';
 import { SeedEvolutionPanel } from '../ui/SeedEvolutionPanel';
 import { SeedEventSystem } from '../systems/SeedEventSystem';
+import { MiniGameManager } from '../games/MiniGameManager';
 import { EVOLUTION_TREE, type EvolutionNode } from '../config/evolutionData';
 import { configureAI } from '../systems/AIService';
 
@@ -147,6 +148,7 @@ export class Game {
   private seedDialoguePanel: SeedDialoguePanel;
   private seedEvolutionPanel: SeedEvolutionPanel;
   private seedEventSystem: SeedEventSystem;
+  private miniGameManager: MiniGameManager;
   private evolvedNodes: Set<string> = new Set();
   private editMode = false;
   private gridHelper: GridHelper;
@@ -276,6 +278,11 @@ export class Game {
     this.seedEvolutionPanel.setOnEvolve((nodeId) => this.evolveNode(nodeId));
     this.seedEvolutionPanel.setOnClose(() => { this.gamePaused = false; });
     this.seedEventSystem = new SeedEventSystem();
+    this.miniGameManager = new MiniGameManager();
+    this.miniGameManager.setCallbacks(
+      (amount) => { this.evolutionResource += amount; this.evolutionHUD.textContent = `进化因子: ${Math.floor(this.evolutionResource)}`; },
+      (reward) => { this.vitality += Math.floor(reward / 2); this.vitalityHUD.textContent = `活性: ${Math.floor(this.vitality)}`; },
+    );
     this.dialogueCoolDownHUD = this.createHUD('dialogue-cooldown', '#9966ff', '');
     this.dialogueCoolDownHUD.style.bottom = '60px';
     this.dialogueCoolDownHUD.style.right = '20px';
@@ -403,6 +410,10 @@ export class Game {
     this.editModePanel = new EditModePanel();
     this.editModePanel.setOnPauseToggle(() => {
       this.gamePaused = this.editModePanel.isPaused;
+    });
+    this.editModePanel.setOnMiniGame(() => {
+      this.gamePaused = true;
+      this.miniGameManager.showLauncher();
     });
     this.registerEditParams();
   }
@@ -979,25 +990,15 @@ export class Game {
         },
       );
     } else if (ev.type === 'minigame') {
-      // 小游戏占位 - 简单显示消息
-      this.seedDialoguePanel.showOption(
-        '🌱',
-        '🎮 小游戏',
-        (ev.data as import('../systems/SeedEventSystem').MinigameData).instruction,
-        ['准备好了！', '下次吧'],
-        (idx) => {
-          if (idx === 0) {
-            this.seedDialoguePanel.showResult('反应不错！+20 活性', '#44ff44');
-            this.vitality += 20;
-            this.vitalityHUD.textContent = `活性: ${Math.floor(this.vitality)}`;
-          }
-          setTimeout(() => {
-            this.seedDialoguePanel.hide();
-            this.seedEventSystem.resolve();
-            this.gamePaused = false;
-          }, 1500);
-        },
-      );
+      this.seedDialoguePanel.hide();
+      this.seedEventSystem.resolve();
+      const miniGameType = (ev.data as any).type || 'raindrop';
+      this.miniGameManager.launch(miniGameType, (reward: number) => {
+        this.vitality += Math.floor(reward / 2);
+        this.vitalityHUD.textContent = `活性: ${Math.floor(this.vitality)}`;
+        this.gamePaused = false;
+        this.seedDialoguePanel.hide();
+      });
     }
   }
 
@@ -1449,7 +1450,10 @@ export class Game {
 
     // === Z 关闭所有面板 ===
     if (input.keys.has('z') && !this.prevZDown) {
-      if (this.inventoryPanel.visible) {
+      if (this.miniGameManager.active) {
+        this.miniGameManager.close();
+        this.gamePaused = false;
+      } else if (this.inventoryPanel.visible) {
         this.gamePaused = false;
         this.inventoryPanel.hide();
       } else if (this.seedEvolutionPanel.visible) {

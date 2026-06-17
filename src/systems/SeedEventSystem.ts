@@ -11,7 +11,7 @@ export interface SeedEvent {
 }
 
 export interface MinigameData {
-  type: 'reaction' | 'match';
+  type: 'raindrop' | 'pinball';
   instruction: string;
   duration: number;
 }
@@ -86,14 +86,14 @@ export class SeedEventSystem {
   private generateMinigameEvent(): MinigameData {
     const games: MinigameData[] = [
       {
-        type: 'reaction',
-        instruction: '当种子发光时快速点击！看看你的反应速度！',
-        duration: 3,
+        type: 'raindrop',
+        instruction: '☔ 接雨滴小游戏！移动鼠标接住雨滴，获得进化因子！',
+        duration: 30,
       },
       {
-        type: 'match',
-        instruction: '记住出现的植物名称顺序，按正确的顺序选择！',
-        duration: 5,
+        type: 'pinball',
+        instruction: '🔮 弹球小游戏！点击发射，打碎砖块获得进化因子！',
+        duration: 60,
       },
     ];
     return games[Math.floor(Math.random() * games.length)];
