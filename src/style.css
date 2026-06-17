@@ -1,0 +1,129 @@
+/* 全局样式 - 太空列车物语 2.5D */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+#game-container {
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  display: block;
+}
+
+/* ===== HUD 通用微立体效果 ===== */
+#safe-zone-countdown,
+#player-hp,
+#player-coin,
+#player-vitality,
+#weapon-name,
+#upgrade-prompt,
+#dialogue-cooldown,
+#planet-distance {
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7), 0 0 12px rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
+  padding: 6px 14px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  letter-spacing: 1px;
+}
+
+#safe-zone-countdown {
+  font-size: 26px !important;
+  font-weight: bold;
+}
+
+/* ===== 升级面板 3D 效果 ===== */
+#upgrade-panel-overlay {
+  backdrop-filter: blur(3px);
+}
+
+#upgrade-panel-overlay > div {
+  box-shadow:
+    0 8px 32px rgba(123,31,162,0.3),
+    0 2px 8px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  background: linear-gradient(180deg, rgba(30,30,60,0.98), rgba(15,15,35,0.98)) !important;
+}
+
+/* ===== 对话面板 3D 效果 ===== */
+#dialogue-panel {
+  box-shadow:
+    0 10px 40px rgba(136,68,255,0.25),
+    0 4px 12px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  background: linear-gradient(180deg, rgba(15,15,40,0.95), rgba(8,8,25,0.95)) !important;
+}
+
+#dialogue-panel button {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#dialogue-panel button:hover {
+  box-shadow: 0 4px 16px rgba(136,68,255,0.35);
+  transform: translateY(-1px);
+}
+
+/* ===== 星球选择面板 3D 效果 ===== */
+#planet-selection-panel > div {
+  box-shadow:
+    0 12px 48px rgba(136,68,255,0.2),
+    0 4px 16px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  background: linear-gradient(180deg, rgba(15,15,40,0.97), rgba(8,8,25,0.97)) !important;
+}
+
+#planet-selection-panel h2 {
+  text-shadow: 0 2px 8px rgba(206,147,216,0.4), 0 0 20px rgba(206,147,216,0.2);
+  letter-spacing: 2px;
+}
+
+/* ===== 背包面板 3D 效果 ===== */
+#inventory-panel > div {
+  box-shadow:
+    0 10px 40px rgba(255,215,64,0.2),
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  background: linear-gradient(180deg, rgba(15,15,40,0.95), rgba(8,8,25,0.95)) !important;
+}
+
+#inventory-panel h2 {
+  text-shadow: 0 2px 8px rgba(255,215,64,0.35);
+  letter-spacing: 2px;
+}
+
+/* ===== 按钮通用 3D 效果 ===== */
+button {
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(136,68,255,0.5);
+  border-radius: 3px;
+}

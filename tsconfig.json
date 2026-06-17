@@ -1,0 +1,22 @@
+{
+  // TypeScript 编译配置 - 太空列车物语
+  "compilerOptions": {
+    "target": "ESNext",              // 目标 ECMAScript 版本
+    "module": "ESNext",              // 模块系统
+    "moduleResolution": "bundler",   // 模块解析策略（适配 bundler）
+    "strict": true,                  // 启用所有严格类型检查
+    "jsx": "preserve",               // JSX 保留（交由 Vite 处理）
+    "resolveJsonModule": true,       // 允许导入 JSON 模块
+    "isolatedModules": true,         // 每个文件作为独立模块
+    "esModuleInterop": true,         // 兼容 CommonJS 和 ES Module
+    "lib": ["ESNext", "DOM"],        // 标准库
+    "skipLibCheck": true,            // 跳过声明文件检查
+    "types": ["vite/client"],        // Vite 客户端类型 (import.meta.env)
+    "noEmit": true,                  // 不输出编译产物（由 Vite 处理）
+    "baseUrl": ".",                  // 模块解析基准目录
+    "paths": {
+      "@/*": ["src/*"]               // 路径别名 @ -> src/
+    }
+  },
+  "include": ["src/**/*.ts"]         // 仅编译 src 下的 TypeScript 文件
+}
